@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         partIndicator: document.getElementById('practice-part-indicator'),
         loadMoreBtn: document.getElementById('load-more-practice'),
         detailsPanel: document.getElementById('practice-details-panel'),
-        detailsPanelContainer: null, // Will store the original parent
+        detailsPanelContainer: document.getElementById('practice-panel-desktop-container'), // The new desktop wrapper
         targetPhrase: document.getElementById('targetPhrase'),
         playTargetSoundBtn: document.getElementById('playTargetSoundBtn'),
         micBtn: document.getElementById('micBtn'),
@@ -291,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let isListening = false;
 
     function initPracticeMode() {
-        practiceDOM.detailsPanelContainer = practiceDOM.detailsPanel.parentNode; // Store original parent
         loadPracticePart(currentPart.practice);
         practiceDOM.loadMoreBtn.addEventListener('click', togglePracticePart);
         practiceDOM.closeModalBtn.addEventListener('click', hideMobilePractice);
@@ -331,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isListening) {
             recognition.stop();
         }
-        // Move content back to its original desktop container
+        // Move content back to its original desktop container to restore the layout
         practiceDOM.detailsPanelContainer.appendChild(practiceDOM.detailsPanel);
     }
 
@@ -361,6 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const isMobile = window.innerWidth < 768;
         if (isMobile) {
+            // Move the panel into the modal and show it
             practiceDOM.mobileContent.appendChild(practiceDOM.detailsPanel);
             practiceDOM.mobileModal.classList.remove('hidden');
         }
