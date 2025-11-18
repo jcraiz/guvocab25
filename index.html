@@ -29,7 +29,7 @@
                         <button id="load-more-study" class="btn-primary">Load More Words</button>
                     </div>
                 </div>
-                <div id="word-details-panel" class="bg-white rounded-xl shadow-md p-6 flex-col sticky top-32 max-h-[calc(100vh-8rem)] hidden">
+                <div id="word-details-panel" class="bg-white rounded-xl shadow-md p-6 flex-col sticky top-32 max-h-[calc(100vh-8rem)] hidden md:flex">
                     <h2 class="text-xl font-semibold mb-4 text-gray-800">Word Details</h2>
                     <div id="word-details" class="flex-1 min-h-[300px] overflow-y-auto">
                         <p class="text-gray-500">Select a word to see its details</p>
@@ -53,32 +53,35 @@
                         <button id="load-more-practice" class="btn-primary">Load More Words</button>
                     </div>
                 </div>
-                <div id="practice-details-panel" class="bg-white rounded-xl shadow-md p-6 flex flex-col sticky top-32 max-h-[calc(100vh-8rem)]">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Pronunciation Target</h2>
-                    <div id="speech-details" class="flex-1 min-h-[300px] overflow-y-auto flex flex-col">
-                         <div id="target-section">
-                            <div class="flex justify-between items-center mb-4">
-                                <h3 id="targetPhrase" class="text-3xl font-bold text-indigo-700">Select a word</h3>
-                                <i id="playTargetSoundBtn" class="fas fa-volume-up sound-icon large-sound-icon hidden"></i>
+                <!-- Desktop container for the practice panel -->
+                <div id="practice-panel-desktop-container" class="hidden md:block">
+                    <div id="practice-details-panel" class="bg-white rounded-xl shadow-md p-6 flex flex-col sticky top-32 max-h-[calc(100vh-8rem)]">
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Pronunciation Target</h2>
+                        <div id="speech-details" class="flex-1 min-h-[300px] overflow-y-auto flex flex-col">
+                             <div id="target-section">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h3 id="targetPhrase" class="text-3xl font-bold text-indigo-700">Select a word</h3>
+                                    <i id="playTargetSoundBtn" class="fas fa-volume-up sound-icon large-sound-icon hidden"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="permission-section" id="permissionSection">
-                             <h3><i class="fas fa-microphone-alt"></i> Mic Access Required</h3>
-                             <p>Click the microphone button to grant permission.</p>
-                        </div>
-                        
-                        <div id="result" class="result-box">Your result will appear here.</div>
-
-                        <div class="controls mt-4 flex-grow flex flex-col items-center justify-center">
-                            <button id="micBtn" class="btn-mic" disabled>
-                                <i class="fas fa-microphone"></i>
-                                <span>Start Listening</span>
-                            </button>
-                        </div>
-                        <div id="status" class="status-box">Select a word to start practicing.</div>
-                        <div class="transcript mt-4">
-                            <h3><i class="fas fa-comment-dots"></i> Transcript:</h3>
-                            <p id="transcriptText">No speech detected yet.</p>
+                            <div class="permission-section" id="permissionSection">
+                                 <h3><i class="fas fa-microphone-alt"></i> Mic Access Required</h3>
+                                 <p>Click the microphone button to grant permission.</p>
+                            </div>
+                            
+                            <div id="result" class="result-box">Your result will appear here.</div>
+    
+                            <div class="controls mt-4 flex-grow flex flex-col items-center justify-center">
+                                <button id="micBtn" class="btn-mic" disabled>
+                                    <i class="fas fa-microphone"></i>
+                                    <span>Start Listening</span>
+                                </button>
+                            </div>
+                            <div id="status" class="status-box">Select a word to start practicing.</div>
+                            <div class="transcript mt-4">
+                                <h3><i class="fas fa-comment-dots"></i> Transcript:</h3>
+                                <p id="transcriptText">No speech detected yet.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
