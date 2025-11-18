@@ -53,7 +53,7 @@
                         <button id="load-more-practice" class="btn-primary">Load More Words</button>
                     </div>
                 </div>
-                <div class="bg-white rounded-xl shadow-md p-6 flex flex-col sticky top-32 max-h-[calc(100vh-8rem)]">
+                <div id="practice-details-panel" class="bg-white rounded-xl shadow-md p-6 flex flex-col sticky top-32 max-h-[calc(100vh-8rem)]">
                     <h2 class="text-xl font-semibold mb-4 text-gray-800">Pronunciation Target</h2>
                     <div id="speech-details" class="flex-1 min-h-[300px] overflow-y-auto flex flex-col">
                          <div id="target-section">
@@ -104,6 +104,20 @@
         </section>
 
     </main>
+    
+    <!-- ===== MOBILE MODALS ===== -->
+    <div id="mobile-details-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-details-modal-btn" class="modal-close-btn">&times;</button>
+            <div id="mobile-word-details"></div>
+        </div>
+    </div>
+    <div id="mobile-practice-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-practice-modal-btn" class="modal-close-btn">&times;</button>
+            <div id="mobile-practice-content"></div>
+        </div>
+    </div>
 
     <!-- ===== FLOATING PROGRESS INDICATOR ===== -->
     <div class="floating-progress">
