@@ -274,6 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         partIndicator: document.getElementById('practice-part-indicator'),
         loadMoreBtn: document.getElementById('load-more-practice'),
         detailsPanel: document.getElementById('practice-details-panel'),
+        detailsPanelContainer: null, // Will store the original parent
         targetPhrase: document.getElementById('targetPhrase'),
         playTargetSoundBtn: document.getElementById('playTargetSoundBtn'),
         micBtn: document.getElementById('micBtn'),
@@ -290,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isListening = false;
 
     function initPracticeMode() {
+        practiceDOM.detailsPanelContainer = practiceDOM.detailsPanel.parentNode; // Store original parent
         loadPracticePart(currentPart.practice);
         practiceDOM.loadMoreBtn.addEventListener('click', togglePracticePart);
         practiceDOM.closeModalBtn.addEventListener('click', hideMobilePractice);
@@ -329,9 +331,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isListening) {
             recognition.stop();
         }
-        // Move content back to desktop view container
-        practiceDOM.detailsPanel.style.display = 'none'; // Keep it hidden on mobile
-        document.body.appendChild(practiceDOM.detailsPanel);
+        // Move content back to its original desktop container
+        practiceDOM.detailsPanelContainer.appendChild(practiceDOM.detailsPanel);
     }
 
     function loadPracticePart(partIndex) {
@@ -361,7 +362,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMobile = window.innerWidth < 768;
         if (isMobile) {
             practiceDOM.mobileContent.appendChild(practiceDOM.detailsPanel);
-            practiceDOM.detailsPanel.style.display = 'flex';
             practiceDOM.mobileModal.classList.remove('hidden');
         }
     }
