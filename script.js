@@ -83,7 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
         partIndicator: document.getElementById('study-part-indicator'),
         loadMoreBtn: document.getElementById('load-more-study'),
         detailsContainer: document.getElementById('word-details'),
-        detailsPanel: document.getElementById('word-details-panel')
+        detailsPanel: document.getElementById('word-details-panel'),
+        mobileModal: document.getElementById('mobile-details-modal'),
+        mobileDetailsContainer: document.getElementById('mobile-word-details'),
+        closeModalBtn: document.getElementById('close-details-modal-btn')
     };
 
     // ===== INITIALIZATION =====
@@ -179,6 +182,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function initStudyMode() {
         loadStudyPart(currentPart.study);
         studyDOM.loadMoreBtn.addEventListener('click', toggleStudyPart);
+        studyDOM.closeModalBtn.addEventListener('click', hideMobileDetails);
+        studyDOM.mobileModal.addEventListener('click', (e) => {
+            if (e.target === studyDOM.mobileModal) { // Click on backdrop
+                hideMobileDetails();
+            }
+        });
+    }
+
+    function hideMobileDetails() {
+        studyDOM.mobileModal.classList.add('hidden');
     }
 
     function loadStudyPart(partIndex) {
@@ -209,15 +222,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('#vocab-container .vocab-card').forEach(el => el.classList.remove('active'));
         element.classList.add('active');
 
-        if (!isMobile) {
+        if (isMobile) {
+            showWordDetails(word, studyDOM.mobileDetailsContainer);
+            studyDOM.mobileModal.classList.remove('hidden');
+        } else {
             studyDOM.detailsPanel.classList.remove('hidden');
+            showWordDetails(word, studyDOM.detailsContainer);
         }
-        
-        showWordDetails(word);
     }
 
-    function showWordDetails(word) {
-        studyDOM.detailsContainer.innerHTML = `
+    function showWordDetails(word, container) {
+        container.innerHTML = `
             <div class="w-full bg-indigo-50 rounded-lg p-6">
                 <div class="flex justify-between items-start mb-4">
                     <div class="flex items-center">
@@ -230,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="mb-4"><h3 class="font-semibold text-gray-700 mb-1 flex items-center">Example <i class="fas fa-volume-up sound-icon ml-2" data-sound-type="example" data-word="${word.word}"></i></h3><p class="text-gray-800 italic">"${word.example}"</p></div>
                 <div><h3 class="font-semibold text-gray-700 mb-1">Synonyms</h3><div class="flex flex-wrap gap-2">${word.synonyms.map(syn => `<span class="text-sm px-2 py-1 bg-gray-200 text-gray-800 rounded-full">${syn}</span>`).join('')}</div></div>
             </div>`;
-        studyDOM.detailsContainer.querySelectorAll('.sound-icon').forEach(icon => {
+        container.querySelectorAll('.sound-icon').forEach(icon => {
             icon.addEventListener('click', (e) => {
                 const type = e.target.dataset.soundType;
                 const word = e.target.dataset.word;
@@ -258,13 +273,17 @@ document.addEventListener('DOMContentLoaded', () => {
         vocabContainer: document.getElementById('practice-vocab-container'),
         partIndicator: document.getElementById('practice-part-indicator'),
         loadMoreBtn: document.getElementById('load-more-practice'),
+        detailsPanel: document.getElementById('practice-details-panel'),
         targetPhrase: document.getElementById('targetPhrase'),
         playTargetSoundBtn: document.getElementById('playTargetSoundBtn'),
         micBtn: document.getElementById('micBtn'),
         statusDiv: document.getElementById('status'),
         resultDiv: document.getElementById('result'),
         transcriptText: document.getElementById('transcriptText'),
-        permissionSection: document.getElementById('permissionSection')
+        permissionSection: document.getElementById('permissionSection'),
+        mobileModal: document.getElementById('mobile-practice-modal'),
+        mobileContent: document.getElementById('mobile-practice-content'),
+        closeModalBtn: document.getElementById('close-practice-modal-btn')
     };
     let recognition;
     let currentPracticeWord = null;
@@ -273,6 +292,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function initPracticeMode() {
         loadPracticePart(currentPart.practice);
         practiceDOM.loadMoreBtn.addEventListener('click', togglePracticePart);
+        practiceDOM.closeModalBtn.addEventListener('click', hideMobilePractice);
+        practiceDOM.mobileModal.addEventListener('click', (e) => {
+            if (e.target === practiceDOM.mobileModal) {
+                hideMobilePractice();
+            }
+        });
+        
         if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
             alert('Sorry, your browser does not support the Web Speech API.'); return;
         }
@@ -298,6 +324,16 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    function hideMobilePractice() {
+        practiceDOM.mobileModal.classList.add('hidden');
+        if (isListening) {
+            recognition.stop();
+        }
+        // Move content back to desktop view container
+        practiceDOM.detailsPanel.style.display = 'none'; // Keep it hidden on mobile
+        document.body.appendChild(practiceDOM.detailsPanel);
+    }
+
     function loadPracticePart(partIndex) {
         practiceDOM.vocabContainer.innerHTML = '';
         vocabularyParts[partIndex].forEach((word, index) => {
@@ -321,6 +357,13 @@ document.addEventListener('DOMContentLoaded', () => {
         practiceDOM.resultDiv.className = 'result-box';
         document.querySelectorAll('#practice-vocab-container .vocab-card').forEach(el => el.classList.remove('active'));
         element.classList.add('active');
+        
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+            practiceDOM.mobileContent.appendChild(practiceDOM.detailsPanel);
+            practiceDOM.detailsPanel.style.display = 'flex';
+            practiceDOM.mobileModal.classList.remove('hidden');
+        }
     }
 
     async function checkMicrophonePermission() {
