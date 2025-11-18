@@ -251,6 +251,7 @@ p, .text-gray-600, .text-gray-500, .text-gray-800 {
     max-height: none;
     height: auto;
     width: 100%;
+    top: auto;
 }
 .modal-content #speech-details {
     min-height: auto; /* Remove fixed min-height inside modal */
@@ -279,7 +280,7 @@ p, .text-gray-600, .text-gray-500, .text-gray-800 {
 
 /* === RESPONSIVE STYLES === */
 @media (max-width: 768px) {
-    #word-details-panel, #practice-details-panel { 
+    #word-details-panel { 
         display: none !important; 
     } 
     .progress-circle { display: none; }
